@@ -46,6 +46,11 @@ Building directly on HtDP, this phase focuses on more advanced functional techni
     *   _Functional Programming in Scala_ by Chiusano and Bjarnason *(Rigorous FP concepts)*
     *   A Data-Centric Introduction to Computing (Bootstrap World) - [Link](https://dcic-world.org/2024-09-03/index.html) *(Alternative introductory approach with strong data focus)*
     *   Explore Test-Driven Development resources (specific books/tutorials TBD based on language choice).
+    *   LiSP (Lisp in Small Pieces)
+    *   PAIP (Paradigms of Artificial Intelligence Programming) https://github.com/norvig/paip-lisp
+    *   Concepts, Techniques, and Models of Computer Programming 
+    *   Programming Languages: Application and Interpretation
+    
 
 ---
 
