@@ -1,0 +1,59 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-beginner-reader.ss" "lang")((modname picture-of-rocket-v4) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+(require 2htdp/image)
+
+; --- Scene Constants ---
+(define WIDTH 200)
+(define HEIGHT 400)
+(define GROUND-OFFSET 10) ; How many pixels the rockbed is above the absolute bottom
+
+; --- Images ---
+(define UFO (overlay (circle 10 "solid" "green")
+                     (rectangle 40 4 "solid" "green")))
+(define ROCKBED (rectangle 40 10 "solid" "grey"))
+
+; --- Calculated Positions ---
+
+; Y-coordinate of the TOP edge of the rockbed
+(define ROCKBED-TOP-Y (- HEIGHT GROUND-OFFSET))
+
+; Y-coordinate where the CENTER of the UFO should be when it's resting on the rockbed
+; It's the rockbed's top edge minus half the UFO's height
+(define UFO-LANDING-Y (- ROCKBED-TOP-Y (/ (image-height UFO) 2)))
+
+; --- Base Scene Creation ---
+; Create the blue background first
+(define BACKGROUND (rectangle WIDTH HEIGHT "solid" "blue"))
+; Place the rockbed onto the background to create the final scene base
+; Center X of rockbed is middle of screen (WIDTH / 2)
+; Center Y of rockbed = top edge (HEIGHT - GROUND_OFFSET) + half its height
+(define SCENE-WITH-ROCKBED
+  (place-image ROCKBED
+               (/ WIDTH 2)
+               (- HEIGHT GROUND-OFFSET (/ (image-height ROCKBED) 2))
+               BACKGROUND))
+
+
+; --- Drawing Function ---
+
+;; picture-of-ufo : Number -> Image
+;; Places the UFO at the horizontal center (X=100) and the given height 'h'
+;; onto the scene with the rockbed. Clamps the UFO's position so it
+;; does not go below the top of the rockbed.
+(define (picture-of-ufo h)
+  (cond
+    [(<= h UFO-LANDING-Y) ; Is the desired height 'h' at or above the landing spot?
+     ; If yes, place the UFO at the requested height 'h'
+     (place-image UFO (/ WIDTH 2) h SCENE-WITH-ROCKBED)]
+    [else ; Otherwise (meaning h > UFO_LANDING_Y, trying to go too low)
+     ; Place the UFO exactly at the landing height (UFO_LANDING_Y)
+     (place-image UFO (/ WIDTH 2) UFO-LANDING-Y SCENE-WITH-ROCKBED)]))
+
+
+; --- Examples ---
+; to run this try these commands in the terminal below
+;(picture-of-ufo 50)  ; UFO high up
+;(picture-of-ufo 350) ; UFO getting close to the rockbed
+;(picture-of-ufo 380) ; UFO should be resting exactly on the rockbed (clamped)
+;(picture-of-ufo 400) ; Trying to go lower, should still be resting on the rockbed

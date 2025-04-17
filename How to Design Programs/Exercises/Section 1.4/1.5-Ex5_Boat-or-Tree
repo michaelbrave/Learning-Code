@@ -1,0 +1,30 @@
+;; The first three lines of this file were inserted by DrRacket. They record metadata
+;; about the language level of this file in a form that our tools can easily process.
+#reader(lib "htdp-beginner-reader.ss" "lang")((modname |1|) (read-case-sensitive #t) (teachpacks ()) (htdp-settings #(#t constructor repeating-decimal #f #t none #f () #f)))
+(require 2htdp/image)
+
+(define SCALE 5)
+(define BASE-TRUNK-WIDTH 5)
+(define BASE-TRUNK-HEIGHT 15)
+(define BASE-TREETOP (* BASE-TRUNK-WIDTH 4))
+(define BASE-SCENE-SIZE 50)
+
+(define TRUNK-WIDTH (* BASE-TRUNK-WIDTH SCALE))
+(define TRUNK-HEIGHT (* BASE-TRUNK-HEIGHT SCALE))
+(define TREETOP (* BASE-TREETOP SCALE))
+(define SCENE-WIDTH (* BASE-SCENE-SIZE SCALE))
+(define SCENE-HEIGHT (* BASE-SCENE-SIZE SCALE))
+
+(define TRUNK (rectangle TRUNK-WIDTH TRUNK-HEIGHT "solid" "brown"))
+(define TREE-TOP (triangle TREETOP "solid" "green"))
+
+(define TREE (above TREE-TOP TRUNK))
+
+(define BACKGROUND (empty-scene SCENE-WIDTH SCENE-HEIGHT))
+
+(define FINAL-TREE-IMAGE
+  (place-image TREE
+               (/ SCENE-WIDTH 2)
+               (- SCENE-HEIGHT (/ (image-height TREE) 2) 5) BACKGROUND))
+
+FINAL-TREE-IMAGE
